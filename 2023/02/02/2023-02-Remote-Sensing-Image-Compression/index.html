@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>Remote Sensing Image Compression | Jimmy Lai's blog</title><meta name="keywords" content="CV"><meta name="author" content="Jimmy Lai"><meta name="copyright" content="Jimmy Lai"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="The following text is from my graduation thesis, of which the improved version was submitted to CVPR. AbstractIn the realm of remote sensing image compression, there exists a formidable challenge of r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Remote Sensing Image Compression">
+<meta property="og:url" content="https://aoi127.github.io/2023/02/02/2023-02-Remote-Sensing-Image-Compression/index.html">
+<meta property="og:site_name" content="Jimmy Lai&#39;s blog">
+<meta property="og:description" content="The following text is from my graduation thesis, of which the improved version was submitted to CVPR. AbstractIn the realm of remote sensing image compression, there exists a formidable challenge of r">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://aoi127.github.io/2023/02/02/2023-02-Remote-Sensing-Image-Compression/Network.png">
+<meta property="article:published_time" content="2023-02-02T08:43:16.000Z">
+<meta property="article:modified_time" content="2023-12-02T15:18:24.172Z">
+<meta property="article:author" content="Jimmy Lai">
+<meta property="article:tag" content="CV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aoi127.github.io/2023/02/02/2023-02-Remote-Sensing-Image-Compression/Network.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://aoi127.github.io/2023/02/02/2023-02-Remote-Sensing-Image-Compression/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Remote Sensing Image Compression',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-02 23:18:24'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.0.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/half-body.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/2023/02/02/2023-02-Remote-Sensing-Image-Compression/Network.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Jimmy Lai's blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Remote Sensing Image Compression</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2023-02-02T08:43:16.000Z" title="Created 2023-02-02 16:43:16">2023-02-02</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2023-12-02T15:18:24.172Z" title="Updated 2023-12-02 23:18:24">2023-12-02</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Remote Sensing Image Compression"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p><strong>The following text is from my graduation thesis, of which the improved version was submitted to CVPR.</strong></p>
+<h1 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h1><p>In the realm of remote sensing image compression, there exists a formidable challenge of reconciling image quality with the compression rate under the constraints of limited bandwidth. The ubiquitously employed JPEG2000 algorithm results in significant degradation of image quality under conditions of low bandwidth. To counter this predicament, we propose a novel deep-learning-based remote sensing image compression algorithm that employs reference image assistance. The salient points of innovation are as follows:</p>
+<ol>
+<li><p>We use deep learning based image compression methods to generate latent codes with lower entropy values at the encoding end, thereby mitigating the volume of transmitted data; At the decoding end, the potential encoding is restored to the original image. By employing Gaussian mixture models to model latent encoding, we can utilize smaller quantities of auxiliary information to decrease the entropy of latent encoding, subsequently reducing the number of encoding bits.</p>
+</li>
+<li><p>Leveraging the unique characteristics of remote sensing image transmission, we utilize historical reference images for texture supplementation. Furthermore, we adopt a compression distortion repair network embedded with a compression quality factor. This approach enables us to effectively capture the feature differences across varying degrees of distortion, thereby augmenting the performance of distortion repair and enhancing the overall generalizability and flexibility.</p>
+</li>
+<li><p>We use NAFBlock which amalgamates convolutional neural networks, residual mechanisms, attention mechanisms, and gating mechanisms as a basic module, thereby reducing computational costs while maintaining quality.</p>
+</li>
+</ol>
+<p>Our empirical studies conducted on the SPOT-5 satellite image dataset demonstrate that our proposed method outperforms the JPEG2000 algorithm and open-source deep learning image compression algorithms in terms of information rate distortion performance.</p>
+<p>This study demonstrates that our proposed deep learning based remote sensing image compression algorithm can effectively mitigate the constraints of limited bandwidth, thereby advancing the current state of the art in remote sensing image compression.</p>
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>In light of the burgeoning advancements in remote sensing technology, high-resolution and large-scale remote sensing images have become increasingly prevalent. However, this proliferation comes with a substantial increase in data volume, which gives rise to the critical challenge of image transmission bandwidth. The JPEG2000 algorithm, despite its widespread use, introduces considerable distortion at low compression rates, thereby damaging the texture details essential to remote sensing images.</p>
+<p>In an attempt to mitigate these issues, image compression techniques leveraging deep learning have been introduced. Nevertheless, these techniques can also induce high levels of distortion, even at lower compression rates, leading to subpar image quality post-compression. This presents an intriguing problem: how can we harness the characteristics of remote sensing image transmission to yield higher quality images at the receiving end? This forms a pivotal task in the pursuit of achieving high-precision remote sensing applications.</p>
+<p>The following study will delve into this problem, exploring novel strategies and methodologies to enhance the quality of remote sensing images, whilst maintaining a balance with the data volume and transmission bandwidth. The results obtained could potentially pave the way for the next generation of remote sensing technology, with improved image quality and efficient data handling capabilities.</p>
+<h1 id="Proposed-Method"><a href="#Proposed-Method" class="headerlink" title="Proposed Method"></a>Proposed Method</h1><p>In this paper, we propose CTRNet, an image compression network bolstered by the use of reference images. CTRNet seamlessly brings together image compression, texture migration, and distortion repair into a single, cohesive system.</p>
+<p><img src="/2023/02/02/2023-02-Remote-Sensing-Image-Compression/Network.png" alt="Network"></p>
+<p>The CTRNet framework, visually represented in the associated figure, is composed of three interconnected networks: the image compression network, the texture migration network, and the distortion repair network. Both the image compression network and the texture migration network are spread across the sender and receiver, hence, their model parameters remain consistent at either end.</p>
+<p>Let ${I}$ represent the image to be transmitted. To differentiate it from subsequent reference images, ${I}$ is also denoted as the primary image. At the sender’s end, both the primary image ${I}$ and the historical reference image ${I}_{Ref}$ are used to generate conditional information ${H}$ via the texture migration network. The primary image ${I}$ and ${H}$ are then compressed into a data bitstream by the image compression network, subsequently being transmitted to the receiving end.</p>
+<p>Upon reaching the receiver’s end, the image compression network reconstructs the received bitstream into a distorted version of the primary image, denoted as ${I}^{\prime}$, and the conditional information, designated as ${H}^{\prime}$. Given the inherent nature of remote sensing image transmission, the receiver’s end also possesses the historical reference image ${I}<em>{Ref}$. Consequently, ${I}</em>{Ref}$, ${H}^{\prime}$, and ${I}^{\prime}$ are collectively input into the texture migration network, yielding a texture-enhanced primary image $\hat$ and a texture feature ${T}$. Following this, ${T}$ and $\hat$ are processed by the distortion repair network, resulting in a twice-recovered primary image $\hat{\hat}$.</p>
+<h1 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h1><h2 id="Datasets"><a href="#Datasets" class="headerlink" title="Datasets"></a>Datasets</h2><p>The efficacy of the suggested remote sensing image compression algorithm is examined in this paper through its application to the SPOT-5 remote sensing satellite dataset. This dataset encompasses a collection of images from diverse urban locations, captured by the SPOT-5 satellite. The resolution of the original images fluctuates between the ranges of 1878x1400 and 6264x3456. For the experimental procedures, these original images are sectioned into non-overlapping image blocks of size 512x512.</p>
+<p>The training and validation sets encompass 6990 pairs of high-resolution remote sensing images along with their corresponding historical reference images, divided in a ratio of 9:1. The test set comprises 58 high-resolution remote sensing images matched with their respective historical reference images, which were captured at five distinct temporal points. It should be noted that the image pairs in this dataset predominantly constitute strictly aligned pairs.</p>
+<h2 id="Comparative-Algorithms"><a href="#Comparative-Algorithms" class="headerlink" title="Comparative Algorithms"></a>Comparative Algorithms</h2><p>We have chosen a diverse range of algorithms to contrast against our proposed algorithm. The selection includes manually designed image compression algorithms, deep learning-based image compression algorithms, stereo image compression algorithms, and stereo image super-resolution algorithms. Our chosen algorithms are as follows:</p>
+<ol>
+<li><p>JPEG2000: This algorithm is a widely recognized standard in remote sensing image compression, utilized extensively in satellite image transmission tasks. Its application extends to satellites such as Yaogan 8, Ziyuan 3, Yaogan 21, and others.</p>
+</li>
+<li><p>Balle’s: A deep-learning based image compression algorithm introduced by Balle et al. in 2018, Balle’s is considered one of the prime representatives of deep learning-based image compression algorithms in the current landscape.</p>
+</li>
+<li><p>Minnen’s: An enhanced model proposed by Minnen et al., Minnen’s model stems from the foundational work of Balle’s algorithm.</p>
+</li>
+<li><p>Cheng’s: Serving as the baseline model for the image compression network proposed in this paper, Cheng’s algorithm is a representation of the state-of-the-art (SOTA) in the realm of deep learning-based image compression networks that are currently open-sourced.</p>
+</li>
+<li><p>SASIC: Recognized as the SOTA of open-sourced stereo image compression tasks, the SASIC algorithm deals with stereo images - pairs of images captured simultaneously by two cameras, simulating human binocular vision. This unique shooting method enables depth perception and stereoscopic visuals. In stereo image compression tasks, the left-eye image often serves as a reference for transmitting the right-eye image. It is worth noting that the compression process for stereo images compresses the pair as one unit, yielding superior results than compressing them separately. However, the application of models suitable for stereo image compression tasks might not be as effective for remote sensing image compression tasks due to the complexity of spatial and temporal changes in the latter.</p>
+</li>
+<li><p>NAFSSR: As the SOTA for open-sourced stereo image super-resolution tasks, NAFSSR, like our proposed model, uses NAF Block as the fundamental module. We have made slight modifications to its network by eliminating the upsampling layer at the beginning and end, rendering it suitable for compression distortion repair tasks.</p>
+</li>
+</ol>
+<h2 id="Experimental-Setup"><a href="#Experimental-Setup" class="headerlink" title="Experimental Setup"></a>Experimental Setup</h2><p>The experiments in this paper are carried out with an RTX 3090 24G graphics card for training and are implemented using the Pytorch 1.8.2 framework. In the experiments, we utilized OpenCV to indirectly call OpenJPEG for the encoding and decoding of JPEG2000. The arithmetic coding is implemented by invoking the API of CompressAI.</p>
+<h2 id="Quantitative-Results"><a href="#Quantitative-Results" class="headerlink" title="Quantitative Results"></a>Quantitative Results</h2><p><img src="/2023/02/02/2023-02-Remote-Sensing-Image-Compression/R-D.png" alt="R-D"></p>
+<p>The rate-distortion performance of the SPOT-5 dataset is shown in the figure above. In this scenario, MS-SSIM is converted into decibels ($-10\ log_{10}(1-MS-SSIM)$) to clearly illustrate the differences. In this paper, we compare the method we propose with traditional handcrafted image compression algorithms, deep learning-based image compression algorithms, and binocular image compression algorithms. In terms of PSNR performance, our proposed method demonstrates competitive results under both low and high bitrate conditions, achieving superior encoding performance compared to prior deep learning-based image compression methods. Regarding MS-SSIM, our method observes state-of-the-art results in the existing works.</p>
+<h2 id="Qualitative-Results"><a href="#Qualitative-Results" class="headerlink" title="Qualitative Results"></a>Qualitative Results</h2><p><img src="/2023/02/02/2023-02-Remote-Sensing-Image-Compression/Qualitive.png" alt="Qualitive"></p>
+<p>To demonstrate that our method can generate visually pleasing results, we visualize some reconstructed images for a qualitative performance comparison. As shown in the above figure (from left to right are Ground Truth, JPEG2000, Balle’s, Minnen’s, Cheng’s, Cheng’s + NAFSSR, and Ours), we selected a remote sensing image rich in details for compression at the same bpp using different methods and subsequent qualitative analysis. It can be observed that the results produced by JPEG2000 manifest noticeable compression artifacts, making it difficult to discern lines. Meanwhile, the results derived from Cheng’s method appear somewhat blurry. The outcomes are slightly improved when NAFSSR image restoration is applied on top of Cheng’s method. However, the best results are generated by CTRNet proposed in this paper, which preserves the most details.</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Jimmy Lai</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://aoi127.github.io/2023/02/02/2023-02-Remote-Sensing-Image-Compression/">https://aoi127.github.io/2023/02/02/2023-02-Remote-Sensing-Image-Compression/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CV/">CV</a></div><div class="post_share"><div class="social-share" data-image="/2023/02/02/2023-02-Remote-Sensing-Image-Compression/Network.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/03/02/2023-03-Image-Deraining/"><img class="prev-cover" src="/2023/03/02/2023-03-Image-Deraining/Cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Image Deraining</div></div></a></div><div class="next-post pull-right"><a href="/2021/11/20/2021-11-Wheeled-Robot/"><img class="next-cover" src="/imgs/Che.gif" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">Intelligent Visual Perception Robot</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2021/11/20/2021-11-Wheeled-Robot/" title="Intelligent Visual Perception Robot"><img class="cover" src="/imgs/Che.gif" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-20</div><div class="title">Intelligent Visual Perception Robot</div></div></a></div><div><a href="/2023/03/02/2023-03-Image-Deraining/" title="Image Deraining"><img class="cover" src="/2023/03/02/2023-03-Image-Deraining/Cover.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-02</div><div class="title">Image Deraining</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/half-body.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Jimmy Lai</div><div class="author-info__description">Junior SDE(TP-Link), Wuhan University</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">4</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">3</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Will keep on improving the blog owo</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Abstract"><span class="toc-number">1.</span> <span class="toc-text">Abstract</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">2.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Proposed-Method"><span class="toc-number">3.</span> <span class="toc-text">Proposed Method</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Experiments"><span class="toc-number">4.</span> <span class="toc-text">Experiments</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Datasets"><span class="toc-number">4.1.</span> <span class="toc-text">Datasets</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comparative-Algorithms"><span class="toc-number">4.2.</span> <span class="toc-text">Comparative Algorithms</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Experimental-Setup"><span class="toc-number">4.3.</span> <span class="toc-text">Experimental Setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Quantitative-Results"><span class="toc-number">4.4.</span> <span class="toc-text">Quantitative Results</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Qualitative-Results"><span class="toc-number">4.5.</span> <span class="toc-text">Qualitative Results</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/03/02/2023-03-Image-Deraining/" title="Image Deraining"><img src="/2023/03/02/2023-03-Image-Deraining/Cover.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Image Deraining"/></a><div class="content"><a class="title" href="/2023/03/02/2023-03-Image-Deraining/" title="Image Deraining">Image Deraining</a><time datetime="2023-03-02T08:01:10.000Z" title="Created 2023-03-02 16:01:10">2023-03-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/02/02/2023-02-Remote-Sensing-Image-Compression/" title="Remote Sensing Image Compression"><img src="/2023/02/02/2023-02-Remote-Sensing-Image-Compression/Network.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Remote Sensing Image Compression"/></a><div class="content"><a class="title" href="/2023/02/02/2023-02-Remote-Sensing-Image-Compression/" title="Remote Sensing Image Compression">Remote Sensing Image Compression</a><time datetime="2023-02-02T08:43:16.000Z" title="Created 2023-02-02 16:43:16">2023-02-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/11/20/2021-11-Wheeled-Robot/" title="Intelligent Visual Perception Robot"><img src="/imgs/Che.gif" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Intelligent Visual Perception Robot"/></a><div class="content"><a class="title" href="/2021/11/20/2021-11-Wheeled-Robot/" title="Intelligent Visual Perception Robot">Intelligent Visual Perception Robot</a><time datetime="2021-11-20T09:48:35.000Z" title="Created 2021-11-20 17:48:35">2021-11-20</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/20/2021-08-Cambridge-Neuroscience/" title="Cambridge Research Program - Theoretical Neuroscience"><img src="/imgs/Cambridge-Networks.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Cambridge Research Program - Theoretical Neuroscience"/></a><div class="content"><a class="title" href="/2021/08/20/2021-08-Cambridge-Neuroscience/" title="Cambridge Research Program - Theoretical Neuroscience">Cambridge Research Program - Theoretical Neuroscience</a><time datetime="2021-08-20T10:49:16.000Z" title="Created 2021-08-20 18:49:16">2021-08-20</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Jimmy Lai</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"left","width":150,"height":200},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
